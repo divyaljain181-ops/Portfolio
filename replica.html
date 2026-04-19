@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divyal Jain — Architectural Atelier</title>
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+
+    <style>
+        :root {
+            --bg-base: #EAE6DF;
+            --surface: #F4F1EB;
+            --text-main: #1C1B1A;
+            --text-muted: #827C75;
+            --accent: #A84B2B;
+            --border: rgba(28, 27, 26, 0.12);
+            --font-serif: 'Instrument Serif', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --noise-opacity: 0.35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor mandated */
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.4;
+        }
+
+        /* --- Global Overlays (Atelier Mandate) --- */
+        #noise-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: var(--noise-opacity);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(to right, var(--border) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+            background-size: 8vw 8vh;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        .vertical-lines {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 4vw;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .line {
+            width: 1px;
+            height: 100%;
+            background: var(--border);
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+
+        .giant-text {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-serif);
+            font-size: 25vw;
+            color: var(--text-main);
+            opacity: 0.02;
+            white-space: nowrap;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Custom Cursor (Atelier Mandate) --- */
+        #cursor-dot {
+            position: fixed;
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 10001;
+            pointer-events: none;
+        }
+
+        #cursor-ring {
+            position: fixed;
+            width: 40px; height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: transparent;
+            transition: background 0.3s, border-color 0.3s, color 0.3s, backdrop-filter 0.3s;
+        }
+
+        /* --- Image Treatment (Atelier Mandate) --- */
+        img {
+            filter: grayscale(80%) sepia(15%) hue-rotate(345deg) contrast(1.1) brightness(0.9);
+            transition: filter 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        img:hover {
+            filter: grayscale(20%) sepia(5%) contrast(1.1) brightness(1);
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 4vw;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- Hero (Asymmetrical Grid) --- */
+        .hero {
+            padding: 160px 0 100px 0;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .hero-text {
+            grid-column: 1 / 10;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(64px, 10vw, 160px);
+            line-height: 0.85;
+            font-weight: 400;
+        }
+
+        .hero h1 i {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-meta {
+            grid-column: 1 / 5;
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* --- Core Reference: Interactive Lists --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 48px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .index-list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 120px;
+        }
+
+        .list-row {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1.5fr 1fr;
+            align-items: center;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.3s;
+        }
+
+        .list-row:hover {
+            transform: translateX(20px);
+            color: var(--accent);
+        }
+
+        .list-row .meta { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+        .list-row .title { font-family: var(--font-serif); font-size: 32px; font-weight: 400; }
+        .list-row .category { font-size: 14px; }
+        .list-row .year { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+        /* --- Floating Reveal (Core Interaction) --- */
+        #hover-reveal {
+            position: fixed;
+            width: 420px;
+            height: 300px;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+            opacity: 0;
+            clip-path: inset(100% 0 0 0);
+            border: 1px solid var(--border);
+        }
+
+        #hover-reveal img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- The Tall Editorial Block (Atelier Mandate) --- */
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            padding: 120px 0;
+        }
+
+        .tall-editorial {
+            grid-column: 2 / 8;
+            position: relative;
+        }
+
+        .editorial-mask {
+            width: 100%;
+            height: 850px;
+            border-radius: 200px 2px 2px 2px;
+            overflow: hidden;
+            box-shadow: 40px 40px 100px rgba(0,0,0,0.05);
+        }
+
+        .editorial-mask img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlap-card {
+            position: absolute;
+            bottom: -60px;
+            right: -80px;
+            background: var(--surface);
+            padding: 56px;
+            width: 380px;
+            border: 1px solid var(--border);
+            box-shadow: 20px 20px 80px rgba(0,0,0,0.08);
+        }
+
+        .overlap-card .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .overlap-card h3 {
+            font-family: var(--font-serif);
+            font-size: 40px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        /* --- The Dark Abstract Block (Atelier Mandate) --- */
+        .dark-block {
+            grid-column: 9 / 13;
+            background: var(--text-main);
+            padding: 64px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 550px;
+            align-self: center;
+        }
+
+        .topo-lines {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.15;
+            background: repeating-radial-gradient(circle at 30% 20%, transparent, transparent 30px, rgba(255,255,255,0.2) 31px, transparent 32px);
+            pointer-events: none;
+        }
+
+        .dark-block h4 {
+            color: white;
+            font-family: var(--font-serif);
+            font-size: 48px;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Rotating Seal --- */
+        .seal-container {
+            position: absolute;
+            top: 15%;
+            right: -60px;
+            width: 140px;
+            height: 140px;
+            z-index: 10;
+        }
+
+        .seal-svg {
+            width: 100%;
+            height: 100%;
+            animation: rotate-seal 15s linear infinite;
+        }
+
+        @keyframes rotate-seal {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .seal-text {
+            font-family: var(--font-sans);
+            font-size: 10px;
+            font-weight: 800;
+            fill: var(--text-main);
+            letter-spacing: 3px;
+        }
+
+        /* --- Magnetic Button --- */
+        .magnetic-wrap {
+            display: inline-flex;
+            position: relative;
+            z-index: 1;
+        }
+
+        .magnetic-btn {
+            width: 140px;
+            height: 140px;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: border-color 0.3s;
+        }
+
+        .magnetic-btn:hover { border-color: var(--accent); }
+
+        /* --- Footer --- */
+        footer {
+            padding: 100px 0 60px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-credits { font-size: 12px; color: var(--text-muted); }
+
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .list-row { grid-template-columns: 1fr 2fr 1fr; }
+            .list-row .year { display: none; }
+            .tall-editorial { grid-column: 1 / 13; }
+            .dark-block { grid-column: 1 / 13; min-height: 400px; margin-top: 80px; }
+            .overlap-card { position: static; width: 100%; margin-top: 24px; padding: 40px; }
+            #cursor-ring, #cursor-dot, #noise-overlay { display: none; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="noise-overlay"></div>
+    <div class="bg-grid"></div>
+    <div class="vertical-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="giant-text">ATELIER</div>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <div id="hover-reveal">
+        <img src="" alt="Reveal">
+    </div>
+
+    <div class="container">
+        <nav>
+            <div class="nav-logo">Divyal Jain</div>
+            <div class="nav-links">
+                <a href="#work">Index</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="mailto:hello@divyal.design">Contact</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-text">
+                <h1 class="reveal-text">Orchestrating <i>Silent</i> Volumes & Human <i>Empathy</i></h1>
+            </div>
+            <div class="hero-meta">
+                <p>Psychologist turned Product Designer. Building digital spaces with raw materiality and emotional precision at <b>Toddle</b>.</p>
+            </div>
+        </section>
+
+        <!-- Core Reference: Experience Index -->
+        <section class="work-section" id="experience" style="margin-top: 100px;">
+            <div class="section-header">
+                <h2>Experience</h2>
+                <span class="meta">Curriculum Vitae</span>
+            </div>
+            <div class="index-list">
+                <div class="list-row" data-image="Assets/Overview.png">
+                    <span class="meta">Current</span>
+                    <span class="title">Product Designer</span>
+                    <span class="category">Toddle</span>
+                    <span class="year">2024 — NOW</span>
+                </div>
+                <div class="list-row" data-image="Assets/Hero section.png">
+                    <span class="meta">02</span>
+                    <span class="title">Design Engineering</span>
+                    <span class="category">Freelance Atelier</span>
+                    <span class="year">2023 — 2024</span>
+                </div>
+                <div class="list-row" data-image="Assets/Me.png">
+                    <span class="meta">03</span>
+                    <span class="title">Behavioral Researcher</span>
+                    <span class="category">RGIPT Academic</span>
+                    <span class="year">2021 — 2023</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Reference: Work Index -->
+        <section class="work-section" id="work">
+            <div class="section-header">
+                <h2>Work</h2>
+                <span class="meta">Selected Projects</span>
+            </div>
+            <div class="index-list">
+                <div class="list-row" data-image="Assets/1st project default.png">
+                    <span class="meta">01</span>
+                    <span class="title">Toddle Redesign</span>
+                    <span class="category">Product Design / UX</span>
+                    <span class="year">2024</span>
+                </div>
+                <div class="list-row" data-image="Assets/Overview.png">
+                    <span class="meta">02</span>
+                    <span class="title">Bespoke Systems</span>
+                    <span class="category">Architectural UI</span>
+                    <span class="year">2023</span>
+                </div>
+                <div class="list-row" data-image="Assets/Hero section.png">
+                    <span class="meta">03</span>
+                    <span class="title">Material Archives</span>
+                    <span class="category">Design Engineering</span>
+                    <span class="year">2023</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atelier Mandate: Asymmetrical Editorial -->
+        <section class="editorial-grid" id="about">
+            <div class="tall-editorial">
+                <div class="editorial-mask reveal-clip">
+                    <img src="Assets/Me.png" alt="Divyal Jain Portrait">
+                </div>
+                
+                <div class="seal-container">
+                    <svg class="seal-svg" viewBox="0 0 100 100">
+                        <path id="circlePath" d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" fill="transparent" />
+                        <text class="seal-text">
+                            <textPath href="#circlePath">
+                                • BESPOKE CRAFT • RAW MATERIALITY • BEHAVIORAL PRECISION •
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="overlap-card">
+                    <span class="label">01 Methodology</span>
+                    <h3>The Psychology of Digital Space</h3>
+                    <p style="color: var(--text-muted); font-size: 15px;">Bridging the gap between human cognition and structural integrity. Every pixel is a calculated breath, every grid a silent volume.</p>
+                </div>
+            </div>
+
+            <div class="dark-block reveal-clip">
+                <div class="topo-lines"></div>
+                <h4>Designing <br><i>Empathy</i> at <br>Scale.</h4>
+                <div class="magnetic-wrap">
+                    <a href="mailto:hello@divyal.design" class="magnetic-btn">
+                        <span>Connect</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="nav-logo">Divyal Jain</div>
+            <div class="footer-credits">© 2026 Architectural Atelier. Built with Precision.</div>
+            <div class="nav-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Twitter</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Initial Animation ---
+        gsap.to(".line", {
+            scaleY: 1,
+            duration: 1.8,
+            stagger: 0.15,
+            ease: "power4.inOut"
+        });
+
+        // --- Text Reveal ---
+        const split = new SplitType('.reveal-text', { types: 'words' });
+        gsap.from(split.words, {
+            yPercent: 120,
+            duration: 1.2,
+            stagger: 0.05,
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top 85%"
+            }
+        });
+
+        // --- Custom Cursor ---
+        const cursorDot = document.querySelector("#cursor-dot");
+        const cursorRing = document.querySelector("#cursor-ring");
+        const xTo = gsap.quickTo(cursorDot, "x", {duration: 0.15});
+        const yTo = gsap.quickTo(cursorDot, "y", {duration: 0.15});
+        const rxTo = gsap.quickTo(cursorRing, "x", {duration: 0.35});
+        const ryTo = gsap.quickTo(cursorRing, "y", {duration: 0.35});
+
+        window.addEventListener("mousemove", e => {
+            xTo(e.clientX - 3);
+            yTo(e.clientY - 3);
+            rxTo(e.clientX - 20);
+            ryTo(e.clientY - 20);
+        });
+
+        // --- List Hover Interaction ---
+        const reveal = document.querySelector("#hover-reveal");
+        const revealImg = reveal.querySelector("img");
+        const rvXTo = gsap.quickTo(reveal, "x", {duration: 0.45});
+        const rvYTo = gsap.quickTo(reveal, "y", {duration: 0.45});
+
+        document.querySelectorAll(".list-row").forEach(row => {
+            row.addEventListener("mouseenter", () => {
+                const img = row.getAttribute("data-image");
+                revealImg.src = img;
+                gsap.to(reveal, { opacity: 1, clipPath: "inset(0% 0 0 0)", duration: 0.5, ease: "power3.out" });
+                gsap.to(cursorRing, { 
+                    scale: 2.2, 
+                    background: "rgba(28, 27, 26, 0.95)", 
+                    borderColor: "transparent", 
+                    color: "white", 
+                    innerHTML: "VIEW", 
+                    backdropFilter: "blur(4px)",
+                    duration: 0.4 
+                });
+                gsap.to(cursorDot, { opacity: 0 });
+            });
+
+            row.addEventListener("mouseleave", () => {
+                gsap.to(reveal, { opacity: 0, clipPath: "inset(100% 0 0 0)", duration: 0.5, ease: "power3.in" });
+                gsap.to(cursorRing, { 
+                    scale: 1, 
+                    background: "transparent", 
+                    borderColor: "var(--accent)", 
+                    color: "transparent", 
+                    innerHTML: "", 
+                    backdropFilter: "blur(0px)",
+                    duration: 0.4 
+                });
+                gsap.to(cursorDot, { opacity: 1 });
+            });
+
+            row.addEventListener("mousemove", e => {
+                rvXTo(e.clientX + 30);
+                rvYTo(e.clientY - 150);
+            });
+        });
+
+        // --- Magnetic Logic ---
+        const magBtn = document.querySelector(".magnetic-btn");
+        const magWrap = document.querySelector(".magnetic-wrap");
+        magWrap.addEventListener("mousemove", e => {
+            const rect = magWrap.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width/2;
+            const y = e.clientY - rect.top - rect.height/2;
+            gsap.to(magBtn, { x: x * 0.5, y: y * 0.5, duration: 0.4 });
+        });
+        magWrap.addEventListener("mouseleave", () => {
+            gsap.to(magBtn, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.3)" });
+        });
+
+        // --- Scroll Animations ---
+        gsap.utils.toArray('.reveal-clip').forEach(el => {
+            gsap.from(el, {
+                clipPath: 'inset(100% 0 0 0)',
+                duration: 1.8,
+                ease: "power4.inOut",
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%'
+                }
+            });
+        });
+
+        gsap.to(".giant-text", {
+            yPercent: -25,
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true
+            }
+        });
+    </script>
+</body>
+</html>

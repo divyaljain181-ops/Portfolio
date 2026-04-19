@@ -1,0 +1,47 @@
+/* 1. The Polaroid Style (No animation for now) */
+.portfolio-card {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transform-origin: center bottom;
+  line-height: 0;
+}
+
+.portfolio-card img {
+  display: block;
+}
+
+/* 2. The Stars Base Style */
+.star {
+  position: absolute;
+  color: #FFD700;
+  font-size: 24px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 3. Star Positioning (Top Left) */
+.star-top-left {
+  top: -15px;
+  left: -15px;
+}
+
+/* 4. Triggering the "Pop" Animation on Hover */
+.portfolio-card:hover .star {
+  opacity: 1;
+  animation: star-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* The Keyframes for the "Growth & Settle" */
+@keyframes star-pop {
+  0% {
+    transform: scale(0) rotate(-20deg);
+  }
+  70% {
+    transform: scale(1.3) rotate(10deg); /* The "Overshoot" */
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}

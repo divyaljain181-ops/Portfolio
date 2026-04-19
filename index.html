@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Divyal Jain – Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #fff; --fg: #111; --muted: #888; --border: #e5e5e5;
+  --card: #fafafa; --card-hover: #fff;
+  --bio: #444; --body-text: #555; --quote: #333;
+  --nav-bg: rgba(255,255,255,0.92); --nav-hover: #f0f0f0;
+  --input-bg: #fafafa; --input-focus-bg: #fff;
+  --radius: 12px; --max: 680px; --font: 'Inter', sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #0f0f0f; --fg: #ededed; --muted: #666; --border: #222;
+  --card: #161616; --card-hover: #1c1c1c;
+  --bio: #aaa; --body-text: #888; --quote: #bbb;
+  --nav-bg: rgba(15,15,15,0.92); --nav-hover: #1a1a1a;
+  --input-bg: #161616; --input-focus-bg: #1c1c1c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f0f0f; --fg: #ededed; --muted: #666; --border: #222;
+    --card: #161616; --card-hover: #1c1c1c;
+    --bio: #aaa; --body-text: #888; --quote: #bbb;
+    --nav-bg: rgba(15,15,15,0.92); --nav-hover: #1a1a1a;
+    --input-bg: #161616; --input-focus-bg: #1c1c1c;
+  }
+}
+html { font-family: var(--font); background: var(--bg); color: var(--fg); font-size: 15px; line-height: 1.6; scroll-behavior: smooth; transition: background .3s, color .3s; }
+body { min-height: 100vh; }
+
+/* ── NAV ── */
+nav.topnav {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 2px; background: var(--nav-bg);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border); border-radius: 100px;
+  padding: 5px 8px; z-index: 999;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  transition: background .3s, border-color .3s;
+}
+nav.topnav a {
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 5px 11px; border-radius: 100px;
+  transition: all .2s; white-space: nowrap;
+}
+nav.topnav a:hover { background: var(--nav-hover); color: var(--fg); }
+.theme-toggle {
+  background: none; border: none; cursor: pointer; padding: 5px 9px;
+  border-radius: 100px; font-size: 14px; line-height: 1; color: var(--muted);
+  transition: background .2s; display: flex; align-items: center;
+}
+.theme-toggle:hover { background: var(--nav-hover); }
+
+/* ── LAYOUT ── */
+main { max-width: var(--max); margin: 0 auto; padding: 110px 24px 80px; }
+section { margin-bottom: 72px; }
+
+/* ── INTRO ── */
+.intro-topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 36px; font-size: 11px; font-weight: 500;
+  color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
+}
+.intro-est { letter-spacing: .1em; }
+.intro-clock-wrap { display: flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; }
+.clock-icon { font-size: 13px; opacity: .7; }
+
+.avatar-wrap { position: relative; display: inline-block; margin-bottom: 24px; }
+.avatar {
+  width: 76px; height: 76px; border-radius: 20px; object-fit: cover;
+  display: block; border: 1px solid var(--border);
+}
+.avatar-status {
+  position: absolute; bottom: 3px; right: 3px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #22c55e; border: 2px solid var(--bg);
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.avatar-status { animation: pulse 2s infinite; }
+
+h1.hero { font-size: 28px; font-weight: 600; line-height: 1.25; margin-bottom: 4px; letter-spacing: -.02em; }
+h1.hero .name { display: flex; align-items: center; gap: 8px; font-size: 32px; margin-bottom: 2px; }
+.verified {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%; background: #3b82f6;
+  color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0; line-height: 1;
+}
+.hero-role { font-size: 15px; color: var(--muted); font-weight: 400; display: block; margin-bottom: 20px; }
+p.bio { font-size: 15px; color: var(--bio); line-height: 1.8; margin-bottom: 22px; }
+p.bio a { color: inherit; font-weight: 600; text-underline-offset: 3px; }
+
+.email-copy {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--bio); cursor: pointer;
+  background: none; border: none; font-family: var(--font); padding: 0;
+}
+.email-copy:hover { color: var(--fg); }
+.email-copy kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  background: var(--card); border: 1px solid var(--border); font-family: var(--font);
+  color: var(--fg); line-height: 1;
+}
+
+/* ── LABELS ── */
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.section-sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+
+/* ── WORK ── */
+.work-grid { display: grid; gap: 14px; }
+.work-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  text-decoration: none; color: inherit;
+  transition: all .2s; display: flex; align-items: stretch;
+  overflow: hidden; background: var(--card); height: 280px; position: relative;
+}
+.work-card:hover {
+  border-color: #c0c0c0; background: var(--card-hover);
+  transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.07);
+}
+.work-card-body {
+  flex: 0 0 45%; padding: 28px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.work-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; line-height: 1.45; }
+.work-card-img-wrap {
+  flex: 1; position: relative;
+}
+.work-card-img {
+  position: absolute;
+  top: 30px; right: 30px; bottom: 30px; left: 0;
+  width: calc(100% - 30px);
+  height: calc(100% - 60px);
+  object-fit: cover; object-position: left top;
+  border-radius: 8px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag {
+  font-size: 11px; font-weight: 500; padding: 3px 10px;
+  border-radius: 100px; border: 1px solid var(--border);
+  color: var(--muted); background: var(--card-hover);
+}
+.work-section-title {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  margin: 28px 0 14px; text-transform: uppercase; letter-spacing: .08em;
+}
+
+/* ── EXPERIENCE ── */
+.exp-list { display: flex; flex-direction: column; gap: 32px; }
+.exp-item { display: grid; grid-template-columns: 110px 1fr; gap: 20px; }
+.exp-date { font-size: 12px; color: var(--muted); font-weight: 500; padding-top: 6px; }
+.exp-body h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--fg); }
+.exp-company-logo { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; display: inline-block; vertical-align: middle; }
+.exp-logo-toddle { object-fit: contain; border-radius: 6px; background: transparent; }
+[data-theme="light"] .exp-logo-toddle { mix-blend-mode: multiply; }
+[data-theme="dark"] .exp-logo-toddle { filter: brightness(1.1); }
+.exp-body ul { font-size: 13px; color: var(--muted); line-height: 1.65; padding-left: 16px; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.exp-body ul li { list-style: disc; }
+
+/* ── TESTIMONIALS ── */
+.testi-list { display: flex; flex-direction: column; gap: 14px; }
+.testi-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; background: var(--card); }
+.testi-card blockquote { font-size: 14px; color: var(--quote); line-height: 1.75; font-style: italic; margin-bottom: 14px; }
+.testi-card .author { font-size: 12px; font-weight: 600; }
+.testi-card .role { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── STACK ── */
+.stack-grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.stack-item { display: flex; text-decoration: none; transition: opacity .15s; }
+.stack-item:hover { opacity: 0.7; }
+.stack-item img { width: 32px; height: 32px; border-radius: 7px; display: block; }
+
+/* ── WRITING ── */
+.writing-list {
+  border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+}
+.writing-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 20px; text-decoration: none; color: inherit;
+  background: var(--card); border-bottom: 1px solid var(--border); transition: background .15s;
+}
+.writing-item:last-child { border-bottom: none; }
+.writing-item:hover { background: var(--card-hover); }
+.wi-left { display: flex; align-items: center; gap: 16px; }
+.wi-date { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wi-title { font-size: 14px; font-weight: 500; }
+.wi-read { font-size: 11px; color: var(--muted); }
+
+/* ── PERSONAL ── */
+.personal-text { font-size: 14px; color: var(--body-text); margin-bottom: 20px; line-height: 1.75; }
+
+/* Spotify card */
+.spotify-card {
+  display: flex; flex-direction: column;
+  background: #1a1a1a; border-radius: 14px; padding: 16px;
+  margin-bottom: 12px; gap: 12px;
+}
+[data-theme="light"] .spotify-card { background: #f0f0f0; }
+.spotify-track { display: flex; align-items: center; gap: 14px; }
+.spotify-art {
+  width: 52px; height: 52px; border-radius: 6px; object-fit: cover; flex-shrink: 0;
+  background: #333;
+}
+.spotify-info { min-width: 0; }
+.spotify-title { font-size: 15px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[data-theme="light"] .spotify-title { color: #111; }
+.spotify-artist { font-size: 13px; color: #aaa; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[data-theme="light"] .spotify-artist { color: #555; }
+.spotify-footer { display: flex; align-items: center; justify-content: space-between; }
+.spotify-label { font-size: 11px; color: #666; }
+[data-theme="light"] .spotify-label { color: #888; }
+.spotify-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: #1DB954; text-decoration: none; transition: opacity .15s;
+}
+.spotify-link:hover { opacity: .75; }
+.spotify-link svg { width: 16px; height: 16px; fill: #1DB954; }
+
+/* Photo fan */
+.photo-section { margin-top: 8px; }
+.photo-fan {
+  position: relative; height: 270px;
+  width: 520px; margin: 0 auto;
+}
+.photo-fan .p {
+  position: absolute; bottom: 0;
+  background: #fff; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28);
+  transform-origin: bottom center;
+  transition: transform .3s ease;
+}
+.photo-fan .p img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo-fan .p1 { width: 175px; height: 225px; left: 0px;   transform: rotate(-6deg); z-index: 1; }
+.photo-fan .p2 { width: 175px; height: 225px; left: 115px; transform: rotate(-2deg); z-index: 2; }
+.photo-fan .p3 { width: 175px; height: 225px; left: 230px; transform: rotate(2deg);  z-index: 3; }
+.photo-fan .p4 { width: 175px; height: 225px; left: 345px; transform: rotate(6deg);  z-index: 4; }
+.photo-fan .p:hover { transform: rotate(0deg) translateY(-10px) scale(1.04); z-index: 10; }
+.photo-caption {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 20px; padding-top: 12px;
+}
+.photo-caption-left { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.leica-logo { font-style: italic; font-family: serif; font-size: 14px; letter-spacing: .02em; color: var(--muted); }
+.photo-ig-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--muted); text-decoration: none; transition: color .15s;
+}
+.photo-ig-link:hover { color: var(--fg); }
+.photo-ig-link svg { width: 16px; height: 16px; }
+
+@media (max-width: 640px) {
+  .photo-fan { height: 200px; width: 100%; overflow-x: auto; overflow-y: visible; }
+  .photo-fan .p1 { width: 130px; height: 165px; left: 0px; }
+  .photo-fan .p2 { width: 130px; height: 165px; left: 85px; }
+  .photo-fan .p3 { width: 130px; height: 165px; left: 170px; }
+  .photo-fan .p4 { width: 130px; height: 165px; left: 255px; }
+}
+
+/* ── CONTACT ── */
+.contact-form { display: flex; flex-direction: column; gap: 12px; }
+.contact-form input,
+.contact-form textarea {
+  border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px;
+  font-size: 14px; font-family: var(--font); background: var(--input-bg);
+  outline: none; transition: border-color .2s, background .2s; width: 100%; color: var(--fg);
+}
+.contact-form input:focus,
+.contact-form textarea:focus { border-color: #999; background: var(--input-focus-bg); }
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.form-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.contact-form button {
+  border: 1px solid var(--fg); background: var(--fg); color: #fff;
+  border-radius: 10px; padding: 12px 24px; font-size: 14px; font-weight: 500;
+  font-family: var(--font); cursor: pointer; transition: all .2s;
+}
+.contact-form button:hover { background: #333; border-color: #333; }
+.form-hint { font-size: 12px; color: var(--muted); }
+.contact-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.contact-link {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px;
+  text-decoration: none; color: var(--fg); background: var(--card); transition: all .15s;
+}
+.contact-link:hover { border-color: #c0c0c0; background: var(--card-hover); }
+.cl-label { font-size: 11px; color: var(--muted); display: block; }
+.cl-value { font-size: 13px; font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  max-width: var(--max); margin: 0 auto; padding: 24px 24px 52px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border); font-size: 12px; color: var(--muted);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--fg); }
+.footer-right { display: flex; gap: 14px; align-items: center; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(16px);
+  background: var(--fg); color: #fff; padding: 10px 22px; border-radius: 100px;
+  font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none;
+  transition: all .3s; z-index: 9999;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── ANIMATIONS ── */
+.fade-up { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ── BOTTOM NAV (mobile only) ── */
+.bottom-nav {
+  display: none;
+}
+@media (max-width: 640px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    gap: 4px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 36px;
+    border-radius: 100px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .bottom-nav a:hover, .bottom-nav a.active { color: var(--fg); background: var(--nav-hover); }
+  .bottom-nav a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .bottom-nav .bn-theme {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 36px; border-radius: 100px;
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    font-size: 16px; transition: background .2s;
+  }
+  .bottom-nav .bn-theme:hover { background: var(--nav-hover); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  /* Hide top nav on mobile */
+  nav.topnav { display: none; }
+
+  /* Layout — extra bottom padding for bottom nav */
+  main { padding-top: 24px; padding-bottom: 100px; }
+  h1.hero { font-size: 22px; }
+  h1.hero .name { font-size: 26px; }
+
+  /* Work cards — image top, content bottom */
+  .work-card { height: auto; flex-direction: column; }
+  .work-card-img-wrap { order: -1; height: 220px; flex: 0 0 auto; }
+  .work-card-img {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .work-card-body { flex: 0 0 auto; padding: 20px 20px 20px; justify-content: flex-start; }
+
+  /* Experience — stack date above content */
+  .exp-item { grid-template-columns: 1fr; gap: 4px; }
+
+  /* AI Experimentations — prevent read time wrapping */
+  .wi-read { white-space: nowrap; flex-shrink: 0; }
+  .wi-left { min-width: 0; }
+  .wi-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+  .footer-right { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="topnav" aria-label="Main navigation">
+  <a href="#intro">Intro</a>
+  <a href="#work">Work</a>
+  <a href="#experience">Experience</a>
+  <a href="#testimonials">Testimonials</a>
+  <a href="#stack">Stack</a>
+  <a href="#writing">AI</a>
+  <a href="#personal">Personal</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
+</nav>
+
+<main>
+
+  <!-- ── INTRO ── -->
+  <section id="intro" class="fade-up">
+    <div class="intro-topbar">
+      <span class="intro-est">Open to opportunities</span>
+      <span class="intro-clock-wrap">
+        <span class="clock-icon">⏱</span>
+        <span id="clock"></span>
+      </span>
+    </div>
+    <div class="avatar-wrap">
+      <img class="avatar" src="Assets/Me.png" alt="Divyal Jain" onerror="this.style.background='var(--card)'" />
+      <span class="avatar-status"></span>
+    </div>
+    <h1 class="hero">
+      <span class="name">Divyal Jain <span class="verified">✓</span></span>
+      <span class="hero-role">Product Designer</span>
+    </h1>
+    <p class="bio">
+      Hey, I'm Divyal — a psychologist turned Product Designer with 3+ years of experience. Currently working at <a href="https://toddle.education" target="_blank" rel="noopener">Toddle</a> Bangalore, India. I specialize in crafting user-centred digital products with a focus on accessibility &amp; design systems, with a research-driven approach.
+    </p>
+    <button class="email-copy" onclick="copyEmail()">
+      Press <kbd>C</kbd> to copy my email
+    </button>
+  </section>
+
+  <!-- ── WORK ── -->
+  <section id="work" class="fade-up">
+    <div class="section-label">Work</div>
+    <p class="section-sub">Below are some select projects — full walkthroughs available on request</p>
+    <div class="work-grid">
+      <a class="work-card"
+         href="toddle-case-study.html"
+         target="_blank" rel="noopener">
+        <div class="work-card-body">
+          <h3>Redesigning Toddle Mobile App to boost App Store rating to 4.5 ⭐️</h3>
+          <div class="tags">
+            <span class="tag">UX Redesign</span>
+            <span class="tag">Product Strategy</span>
+            <span class="tag">User Research</span>
+          </div>
+        </div>
+        <div class="work-card-img-wrap">
+          <img class="work-card-img" src="mobileAppRevamp.png" alt="Toddle Mobile App Redesign" />
+        </div>
+      </a>
+      <a class="work-card"
+         href="design-system-case-study.html">
+        <div class="work-card-body">
+          <h3>Building Toddle Design System 2.0</h3>
+          <div class="tags">
+            <span class="tag">Product Design</span>
+            <span class="tag">Accessibility</span>
+          </div>
+        </div>
+        <div class="work-card-img-wrap">
+          <img class="work-card-img" src="DesignSystem.png" alt="Toddle Design System 2.0" />
+        </div>
+      </a>
+    </div>
+    <div class="work-section-title">📌 Past Projects</div>
+    <div class="work-grid">
+      <a class="work-card"
+         href="aulacube-case-study.html">
+        <div class="work-card-body">
+          <h3>Rethinking School Management for India</h3>
+          <div class="tags">
+            <span class="tag">0–1 Product</span>
+            <span class="tag">UI/UX Design</span>
+          </div>
+        </div>
+        <div class="work-card-img-wrap">
+          <img class="work-card-img" src="AulaCube case study three thumbnail.png" alt="Rethinking School Management for India" />
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience" class="fade-up">
+    <div class="section-label">Experience</div>
+    <p class="section-sub">Throughout my career I've worked on everything from design systems to consumer-facing apps.</p>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-date">Jul 2024 — Now</div>
+        <div class="exp-body">
+          <h3>Product Designer at <img class="exp-company-logo exp-logo-toddle" src="Educator app icon (1).png" alt="Toddle logo"> Toddle</h3>
+          <ul>
+            <li>Spearheading the revamp of Toddle's mobile app experience and UI to drive better user adoption and engagement.</li>
+            <li>Building platform-agnostic design systems across mobile and web—focusing on accessibility, scalability, and visual consistency.</li>
+            <li>Created a comprehensive library of components and guidelines for web, improving brand consistency and streamlining collaboration between design and engineering teams.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">May 2023 — Jun 2024</div>
+        <div class="exp-body">
+          <h3>UX Designer at <img class="exp-company-logo" src="aulacube_logo.jpeg" alt="AulaCube logo"> AulaCube</h3>
+          <ul>
+            <li>Founding team member of AulaCube Technologies (Ed-tech, B2B &amp; B2C).</li>
+            <li>Pioneered ed-tech innovations by integrating meaningful user experiences with educational needs.</li>
+            <li>Built products by applying a deep understanding of user behaviour to enhance product design and functionality.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Jul 2022 — May 2023</div>
+        <div class="exp-body">
+          <h3>UX Researcher at <img class="exp-company-logo" src="https://www.google.com/s2/favicons?domain=atlassian.com&sz=64" alt="Atlassian logo"> Atlassian</h3>
+          <ul>
+            <li>Worked with cross-disciplinary product teams to conduct user research for Jira Service Management, Jira Software, and Ops Genie.</li>
+            <li>Planned, conducted and evaluated qualitative studies using exploratory, generative, and usability methodologies to provide actionable design insights.</li>
+            <li>Designed and conducted primary research on Reporting &amp; Analytics within JSM and led in-depth journey mapping research.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section id="testimonials" class="fade-up">
+    <div class="section-label">Testimonials</div>
+    <div class="testi-list">
+      <div class="testi-card">
+        <blockquote>"Divyal ranks as one of the finest UX designers I have worked with. She was the first employee at AulaCube, joining us in a consumer research role and bringing solid experience in user research from Atlassian. Right from day one, she took charge of helping us develop a deep understanding of our potential users through user interviews, quantitative surveys, competitive analysis, and more."</blockquote>
+        <div class="author">Amit Bhatnagar</div>
+        <div class="role">Founder, AulaCube · Product Leader &amp; Design Head at Nielsen</div>
+      </div>
+      <div class="testi-card">
+        <blockquote>"Divyal is a great UX researcher. I have worked with few researchers as prolific as Divyal. She is a great team player and collaborator and always seeks to fully understand the problem she is solving for users. Product Research is an area where Divyal is uniquely talented and something she loves doing. I would highly recommend Divyal, as she was a great asset to our team."</blockquote>
+        <div class="author">Abhilash Bhattacharjee</div>
+        <div class="role">Senior Product Designer · Confluent · Ex-Atlassian</div>
+      </div>
+      <div class="testi-card">
+        <blockquote>"I was so impressed with how much Divyal accomplished as a graduate researcher at Atlassian. She independently delivered a number of research projects (both primary and secondary), and was a core contributor to a large strategic foundational research project. She is a great communicator and works really collaboratively within a cross-functional team."</blockquote>
+        <div class="author">Elise Margetts, Ph.D.</div>
+        <div class="role">Research Manager at Bupa · Honorary Fellow, University of Melbourne</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STACK ── -->
+  <section id="stack" class="fade-up">
+    <div class="section-label">Stack</div>
+    <div class="stack-grid">
+      <a class="stack-item" href="https://figma.com" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=figma.com&sz=128" alt="Figma"></a>
+      <a class="stack-item" href="https://granola.ai" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=granola.ai&sz=128" alt="Granola"></a>
+      <a class="stack-item" href="https://wisprflow.ai" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=wisprflow.ai&sz=128" alt="Wispr Flow"></a>
+      <a class="stack-item" href="https://claude.ai" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=128" alt="Claude"></a>
+      <a class="stack-item" href="https://slack.com" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=slack.com&sz=128" alt="Slack"></a>
+      <a class="stack-item" href="https://coda.io" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=coda.io&sz=128" alt="Coda"></a>
+      <a class="stack-item" href="https://clickup.com" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=clickup.com&sz=128" alt="ClickUp"></a>
+    </div>
+  </section>
+
+  <!-- ── WRITING ── -->
+  <section id="writing" class="fade-up">
+    <div class="section-label">AI Experimentations</div>
+    <div class="writing-list">
+      <a class="writing-item" href="https://nextapp-theta-pink.vercel.app/" target="_blank" rel="noopener">
+        <div class="wi-left">
+          <span class="wi-date">18/04/26</span>
+          <span class="wi-title">What coffee are you</span>
+        </div>
+        <span class="wi-read">↗</span>
+      </a>
+      <a class="writing-item" href="#">
+        <div class="wi-left">
+          <span class="wi-date">15/04/26</span>
+          <span class="wi-title">Building a portfolio with Claude — no code, just prompts</span>
+        </div>
+        <span class="wi-read">4 m</span>
+      </a>
+      <a class="writing-item" href="#">
+        <div class="wi-left">
+          <span class="wi-date">02/03/26</span>
+          <span class="wi-title">Using AI to accelerate design system documentation</span>
+        </div>
+        <span class="wi-read">5 m</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── PERSONAL ── -->
+  <section id="personal" class="fade-up">
+    <div class="section-label">Personal</div>
+    <p class="personal-text">In my spare time I like reading about psychology — child psychology and neuroplasticity in particular. I enjoy tending to my plants and figuring out how to keep them alive. I'm a movie enthusiast and love a good stand-up comedy. On the side I do yoga, badminton, swimming, or hit the gym.</p>
+
+    <!-- Spotify card -->
+    <div class="spotify-card">
+      <div class="spotify-track">
+        <img class="spotify-art" src="https://i.scdn.co/image/ab67616d0000b273ed63ff07bffff1d277e2d93e" alt="Kadi Aao Ni album art" />
+        <div class="spotify-info">
+          <div class="spotify-title">Kadi Aao Ni</div>
+          <div class="spotify-artist">Mai Dhai, Atif Aslam · Coke Studio Season 8</div>
+        </div>
+      </div>
+      <div class="spotify-footer">
+        <span class="spotify-label">Most replayed this month</span>
+        <a class="spotify-link" href="https://open.spotify.com/track/00r7eWpswYaHoO7E23nUPV" target="_blank" rel="noopener">
+          Listen on Spotify
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.516 17.32c-.213.34-.664.447-1.004.233-2.751-1.682-6.214-2.062-10.292-1.13-.393.09-.786-.155-.876-.548-.09-.393.155-.786.548-.876 4.464-1.02 8.294-.581 11.39 1.317.34.213.447.664.234 1.004zm1.473-3.276c-.269.43-.837.564-1.267.295-3.147-1.934-7.94-2.496-11.665-1.366-.482.146-.99-.126-1.136-.608-.146-.482.126-.99.608-1.136 4.25-1.29 9.535-.665 13.165 1.548.43.269.564.837.295 1.267zm.127-3.41c-3.773-2.24-9.995-2.446-13.6-1.353-.578.176-1.189-.151-1.364-.729-.176-.578.15-1.189.729-1.364 4.137-1.258 11.014-1.015 15.36 1.566.52.308.69.983.382 1.503-.308.52-.983.69-1.503.382z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Leica photo fan -->
+    <div class="photo-section">
+      <div class="photo-fan">
+        <div class="p p1"><img src="Personal/108830AC-7EA5-4ED1-B343-39432B523157.JPG" alt="Leica shot 1" /></div>
+        <div class="p p2"><img src="Personal/IMG_7755.jpeg" alt="Leica shot 2" /></div>
+        <div class="p p3"><img src="Personal/20260209_072151.jpeg" alt="Leica shot 3" /></div>
+        <div class="p p4"><img src="Personal/photo4.png" alt="Leica shot 4" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 Divyal Jain</span>
+  <div class="footer-right">
+    <span>📍 India</span>
+    <a href="https://framer.com" target="_blank" rel="noopener">Built with Framer</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Email copied!</div>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const toggleBtn = document.getElementById('themeToggle');
+  const systemDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function getEffectiveTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved;
+    return systemDark() ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+
+  applyTheme(getEffectiveTheme());
+
+  toggleBtn.addEventListener('click', () => {
+    const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+  });
+
+  // Live clock
+  function updateClock() {
+    const el = document.getElementById('clock');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-GB', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short'
+    });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Copy email
+  function copyEmail() {
+    navigator.clipboard.writeText('hi@divyaljain.com')
+      .then(() => showToast('Email copied to clipboard!'))
+      .catch(() => showToast('hi@divyaljain.com'));
+  }
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    const tag = document.activeElement.tagName;
+    if ((e.key === 'c' || e.key === 'C') && tag !== 'INPUT' && tag !== 'TEXTAREA') copyEmail();
+    if (e.key === 'Enter' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      const btn = document.querySelector('.contact-form button');
+      if (btn) btn.click();
+    }
+  });
+
+  // Toast
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    showToast('Message sent! I\'ll get back to you soon.');
+    e.target.reset();
+  }
+
+  // Scroll-triggered fade-in (also catches elements already in view on load)
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { el.classList.add('visible'); }
+    else { obs.observe(el); }
+  });
+</script>
+
+<!-- ── BOTTOM NAV (mobile) ── -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="#intro" title="Intro">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7"/></svg>
+  </a>
+  <a href="#work" title="Work">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+  </a>
+  <a href="#experience" title="Experience">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+  </a>
+  <a href="#testimonials" title="Testimonials">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </a>
+  <a href="#writing" title="AI">
+    <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+  </a>
+  <button class="bn-theme" id="bottomThemeToggle" aria-label="Toggle theme">☀️</button>
+</nav>
+<script>
+  // Sync bottom theme toggle
+  const bottomToggle = document.getElementById('bottomThemeToggle');
+  if (bottomToggle) {
+    bottomToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      const icon = next === 'dark' ? '☀️' : '🌙';
+      bottomToggle.textContent = icon;
+      const topToggle = document.getElementById('themeToggle');
+      if (topToggle) topToggle.textContent = icon;
+    });
+    // Sync initial icon
+    const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    bottomToggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+</script>
+</body>
+</html>
