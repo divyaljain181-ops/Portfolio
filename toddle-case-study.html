@@ -268,7 +268,7 @@
 
     <h2>Home Page</h2>
     <div class="impact-list">
-      <div class="impact-item"><span class="impact-num">01</span>Replaced large widgets with compact modules to support future scalability, resulting in a more balanced and extensible homepage structure.</div>
+      <div class="impact-item"><span class="impact-num">01</span>Large widgets consumed excessive vertical space, requiring users to scroll just to see what was available. Compact modules brought more content above the fold, reducing cognitive load and making the home screen functional rather than decorative.</div>
     </div>
     <img class="screenshot" src="Case study 1/Homepage.png" alt="Homepage redesign" />
 
@@ -276,19 +276,18 @@
 
     <h2>Profile Page</h2>
     <div class="impact-list">
-      <div class="impact-item"><span class="impact-num">01</span>Replaced confusing home icon back navigation with a standard back button for predictable interactions.</div>
-      <div class="impact-item"><span class="impact-num">02</span>Grouped profile photo, name, contact details, and edit option into a single profile card.</div>
-      <div class="impact-item"><span class="impact-num">03</span>Reduced visual bulk — more actions visible with a cleaner, easier-to-scan layout.</div>
+      <div class="impact-item"><span class="impact-num">01</span>The home icon was being misread as 'go to home screen' — users were accidentally exiting their current context. A standard back button follows platform conventions on both iOS and Android, removing ambiguity entirely.</div>
+      <div class="impact-item"><span class="impact-num">02</span>Profile information was scattered across multiple areas with no clear visual hierarchy — users couldn't quickly verify or edit their details. Consolidating photo, name, contact details, and edit action into a single card created one predictable place for everything profile-related.</div>
+      <div class="impact-item"><span class="impact-num">03</span>The old layout buried secondary actions below the fold, forcing unnecessary scrolling. A tighter, scannable layout surfaces more actions in the same screen height — reducing taps and improving task completion speed.</div>
     </div>
     <img class="screenshot" src="Case study 1/Profile page.png" alt="Profile page redesign" />
 
     <hr />
-
     <h2>Announcements</h2>
     <div class="impact-list">
-      <div class="impact-item"><span class="impact-num">01</span>Clear visual patterns to differentiate new, unread, and read announcements.</div>
-      <div class="impact-item"><span class="impact-num">02</span>Added "Unread" filter so users can focus on new content without scrolling through older items.</div>
-      <div class="impact-item"><span class="impact-num">03</span>Updated header buttons from outlined to plain icons — cleaner and more scalable.</div>
+      <div class="impact-item"><span class="impact-num">01</span>Announcements had no visual distinction between new, unread, and read states — everything looked the same. Adding clear visual differentiation lets parents instantly spot what needs attention without reading every item.</div>
+      <div class="impact-item"><span class="impact-num">02</span>Parents were opening the app specifically to check new announcements, but had to scroll through older read items to find them. An Unread filter surfaces the most relevant content immediately, matching the user's actual intent.</div>
+      <div class="impact-item"><span class="impact-num">03</span>Header buttons used outlined icon styles that were visually heavy and inconsistent with the evolving design system. Switching to plain icons reduced visual noise and aligned with the mobile design system's icon standards, making the pattern scalable across other screens.</div>
     </div>
     <img class="screenshot" src="Case study 1/Announcements.png" alt="Announcements redesign" />
 
@@ -296,16 +295,16 @@
 
     <h2>Calendar</h2>
     <div class="impact-list">
-      <div class="impact-item"><span class="impact-num">01</span>Month selection moved into the header with a dropdown, replacing multiple controls for more compact navigation.</div>
-      <div class="impact-item"><span class="impact-num">02</span>Added month breakers to clearly show timeline transitions while scrolling.</div>
-      <div class="impact-item"><span class="impact-num">03</span>Updated colour palette to softer, more mobile-friendly colours.</div>
+      <div class="impact-item"><span class="impact-num">01</span>The previous design used multiple tappable controls spread across the screen for month navigation — creating unnecessary back-and-forth. Consolidating it into a header dropdown followed the pattern users already know from native calendar apps, reducing the learning curve.</div>
+      <div class="impact-item"><span class="impact-num">02</span>Scrolling through a long calendar list with no visual breaks made it hard to tell where one month ended and another began. Added Month breakers which act as clear section dividers, reducing disorientation while scanning across time.</div>
+      <div class="impact-item"><span class="impact-num">03</span>The previous colour palette used high-contrast colours that were visually harsh on mobile screens, especially in low-light conditions. Softer tones improve readability and reduce eye strain during extended use.</div>
     </div>
     <img class="screenshot" src="Case study 1/Calendar.png" alt="Calendar redesign" />
 
     <hr />
 
     <h2>Attendance Dashboard</h2>
-    <p>Redesigned the full attendance flow including overview, marking, excusals, and category-wise breakdowns for teachers, families, and students.</p>
+    <p>The attendance flow was one of the most-used and most-complained-about parts of the app. Teachers needed to mark attendance quickly during class; families needed to track and excuse absences; students needed to see their own records. A single fragmented flow was trying to serve all three — poorly. I redesigned the full flow with role-appropriate views for each user type, covering overview, marking, excusals, and category-wise breakdowns.</p>
     <img class="screenshot" src="Case study 1/Attendance dashboard.png" alt="Attendance dashboard redesign" />
 
     <hr />
@@ -320,8 +319,9 @@
 
     <h2>Font Scaling & Accessibility</h2>
     <div class="impact-list">
-      <div class="impact-item"><span class="impact-num">01</span>Redesigned flows to support iOS text scaling up to XXXL and accessibility sizes A1–A5.</div>
-      <div class="impact-item"><span class="impact-num">02</span>Defined text scaling at component level — deciding which text scales and which is capped to prevent layout breakage.</div>
+      <div class="impact-item"><span class="impact-num">01</span>Schools flagged that parents and students relying on larger system text sizes were encountering broken, unreadable layouts — a significant accessibility barrier. Redesigning flows to support iOS text scaling up to XXXL and accessibility sizes A1–A5 ensured the app was usable for everyone, not just users on default settings.</div>
+      <div class="impact-item"><span class="impact-num">02</span>Without a scaling strategy, allowing all text to scale freely caused layouts to break — buttons overflowing, labels truncating, and cards collapsing. Defining scaling behaviour at the component level — deciding exactly which text scales and which is capped — gave us accessibility without sacrificing layout integrity.</div>
+
     </div>
     <img class="screenshot" src="Case study 1/Accessibility.png" alt="Font scaling and accessibility" />
   </div>
